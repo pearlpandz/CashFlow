@@ -1,25 +1,36 @@
 {
-  "name": "mean-time",
+  "name": "cash-flow",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma-migrate": "npx prisma migrate dev --name init"
   },
   "dependencies": {
+    "@date-io/date-fns": "^3.2.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.6",
+    "@mui/material": "^6.4.6",
+    "@mui/x-date-pickers": "^5.0.15",
+    "@prisma/client": "^6.4.1",
+    "date-fns": "^4.1.0",
+    "next": "15.2.0",
+    "prisma": "^6.4.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "next": "15.2.0"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "axios": "^1.8.1",
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
   }
 }
