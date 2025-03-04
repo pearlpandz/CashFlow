@@ -12,6 +12,7 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
+import DatePicker from 'react-datepicker';
 
 interface ExpenseFormProps {
   userId: number;
@@ -29,7 +30,14 @@ const categories = [
 ];
 
 export default function ExpenseForm({ userId, onSubmit }: ExpenseFormProps) {
-  const [formData, setFormData] = useState({
+  interface ExpenseFormData {
+    amount: string;
+    description: string;
+    category: string;
+    date: Date | null;
+  }
+
+  const [formData, setFormData] = useState<ExpenseFormData>({
     amount: '',
     description: '',
     category: '',
@@ -77,11 +85,7 @@ export default function ExpenseForm({ userId, onSubmit }: ExpenseFormProps) {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 3}}>
-      <Typography variant="h6" component="h2" gutterBottom>
-        Add New Expense
-      </Typography>
-      
+    <Paper elevation={3} sx={{ p: 3 }}>
       <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <TextField
           label="Amount"
@@ -100,7 +104,7 @@ export default function ExpenseForm({ userId, onSubmit }: ExpenseFormProps) {
           required
           fullWidth
           multiline
-          rows={2}
+          rows={5}
         />
 
         <FormControl fullWidth required>
@@ -116,6 +120,22 @@ export default function ExpenseForm({ userId, onSubmit }: ExpenseFormProps) {
               </MenuItem>
             ))}
           </Select>
+        </FormControl>
+
+        <FormControl fullWidth required>
+          <DatePicker
+            selected={formData.date}
+            onChange={(date: Date | null) => setFormData({ ...formData, date: date })}
+            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl"
+            wrapperClassName="MuiFormControl-root"
+            customInput={<TextField fullWidth />}
+            dateFormat="MM/dd/yyyy"
+            placeholderText="Select date"
+            popperPlacement="top"
+            popperProps={{
+              strategy: "fixed"
+            }}
+          />
         </FormControl>
 
         {error && (

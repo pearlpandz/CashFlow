@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
+import DatePicker from 'react-datepicker';
 
 interface ExpenseRow {
   id: number;
@@ -36,7 +37,7 @@ export default function InputPage() {
     setRows([...rows, newRow]);
   };
 
-  const handleChange = (id: number, field: keyof ExpenseRow, value: string) => {
+  const handleChange = (id: number, field: keyof ExpenseRow, value: string | Date | null) => {
     setRows(rows.map(row => 
       row.id === id ? { ...row, [field]: value } : row
     ));
@@ -96,8 +97,24 @@ export default function InputPage() {
                 sx={{ width: 150 }}
               />
 
+              <FormControl sx={{ width: 200 }}>
+                <DatePicker 
+                  selected={row.date} 
+                  onChange={(newValue: Date | null) => handleChange(row.id, 'date', newValue)}
+                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl"
+                  wrapperClassName="MuiFormControl-root"
+                  customInput={<TextField />}
+                  dateFormat="MM/dd/yyyy"
+                  placeholderText="Select date"
+                  popperPlacement="top"
+                  popperProps={{
+                    strategy: "fixed"
+                  }}
+                />
+              </FormControl>
+
               <TextField
-                label="Description"
+                label="Short Description"
                 value={row.description}
                 onChange={(e) => handleChange(row.id, 'description', e.target.value)}
                 sx={{ flexGrow: 1 }}

@@ -9,8 +9,15 @@ import {
   ListItemText,
   Divider,
   Paper,
+  Button,
+  IconButton,
+  DialogTitle,
+  Backdrop,
 } from '@mui/material';
 import ExpenseForm from '../components/ExpenseForm';
+import { Dialog, DialogContent } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface Expense {
   id: number;
@@ -24,7 +31,7 @@ export default function ExpensesPage() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [open, setOpen] = useState(false);
   // TODO: Replace with actual user ID from authentication
   const userId = 1;
 
@@ -64,7 +71,58 @@ export default function ExpensesPage() {
         Expense Tracker
       </Typography>
 
-      <ExpenseForm userId={userId} onSubmit={fetchExpenses} />
+      <Box sx={{ mb: 3 }}>
+        <Button
+          variant="contained"
+          onClick={() => setOpen(true)}
+          startIcon={<AddIcon />}
+        >
+          Add Expense
+        </Button>
+      </Box>
+
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        disableEscapeKeyDown
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            sx: {
+              backgroundColor: "rgba(0, 0, 0, 0.7)", // Darker overlay
+              backdropFilter: "blur(5px)", // Blur effect
+            },
+          },
+        }}
+      >
+        <DialogTitle>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Add New Expense
+          </Typography>
+          <IconButton
+            aria-label="close"
+            onClick={() => setOpen(false)}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent sx={{ p: 0 }}>
+          <ExpenseForm
+            userId={userId}
+            onSubmit={() => {
+              fetchExpenses();
+              setOpen(false);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
 
       <Box sx={{ mt: 4 }}>
         <Typography variant="h5" component="h2" gutterBottom>

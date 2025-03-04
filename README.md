@@ -16,10 +16,10 @@ Solution: A chatbot that provides basic mental health support and guides users t
 
 ### Tech Stack:
 
-**Frontend:** React, Chakra UI
+**Frontend:** Next Js, MUI, axios
 
-**Backend:** Node.js, Express.js
+**Backend:** Next Js, Prisma
 
-**Database:** MongoDB
+**Database:** PostgreSQL
 
-**AI API:** OpenAI / Dialogflow
+**AI API:** OpenAI
