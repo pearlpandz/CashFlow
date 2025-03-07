@@ -13,6 +13,7 @@ import {
   IconButton,
   DialogTitle,
   Backdrop,
+  Grid2 as Grid,
 } from '@mui/material';
 import ExpenseForm from '../components/ExpenseForm';
 import { Dialog, DialogContent } from '@mui/material';
@@ -65,21 +66,58 @@ export default function ExpensesPage() {
     }).format(amount);
   };
 
+  const getTotalExpenses = () => {
+    return expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  };
+
+  const getDateRange = () => {
+    if (expenses.length === 0) return 'No expenses';
+    const dates = expenses.map(expense => new Date(expense.date));
+    const minDate = new Date(Math.min(...dates.map(date => date.getTime())));
+    const maxDate = new Date(Math.max(...dates.map(date => date.getTime())));
+    return `${formatDate(minDate.toISOString())} - ${formatDate(maxDate.toISOString())}`;
+  };
+
   return (
     <Box>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Expense Tracker
-      </Typography>
+      <Grid container spacing={3} alignItems="center" sx={{ mb: 3 }}>
+        <Grid size={{xs:12, md: 6}}>
+          <Typography variant="h6" component='h1' sx={{ fontWeight: 'bold' }}>Expense Summary</Typography>
+          <Typography variant="body1" color="text.secondary">{getDateRange()}</Typography>
+        </Grid>
+        <Grid size={{xs:12, md: 6}} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button
+            variant="contained"
+            onClick={() => setOpen(true)}
+            startIcon={<AddIcon />}
+          >
+            Add Expense
+          </Button>
+        </Grid>
+      </Grid>
 
-      <Box sx={{ mb: 3 }}>
-        <Button
-          variant="contained"
-          onClick={() => setOpen(true)}
-          startIcon={<AddIcon />}
-        >
-          Add Expense
-        </Button>
-      </Box>
+      <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+        <Grid container spacing={2}>
+          <Grid size={{xs:12, md: 4}}>
+            <Typography variant="subtitle2" color="text.secondary">Total Expenses</Typography>
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
+              {formatAmount(getTotalExpenses())}
+            </Typography>
+          </Grid>
+          <Grid size={{xs:12, md: 4}}>
+            <Typography variant="subtitle2" color="text.secondary">Number of Transactions</Typography>
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
+              {expenses.length}
+            </Typography>
+          </Grid>
+          <Grid size={{xs:12, md: 4}}>
+            <Typography variant="subtitle2" color="text.secondary">Average Expense</Typography>
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold' }}>
+              {expenses.length > 0 ? formatAmount(getTotalExpenses() / expenses.length) : formatAmount(0)}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Paper>
 
       <Dialog
         open={open}
@@ -91,8 +129,8 @@ export default function ExpensesPage() {
         slotProps={{
           backdrop: {
             sx: {
-              backgroundColor: "rgba(0, 0, 0, 0.7)", // Darker overlay
-              backdropFilter: "blur(5px)", // Blur effect
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              backdropFilter: "blur(5px)",
             },
           },
         }}

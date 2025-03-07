@@ -4,7 +4,7 @@ import React from "react";
 import { Box, List, Drawer, ThemeProvider, createTheme, CssBaseline, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import { MENU_ITEMS } from "./constants/menu";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 const theme = createTheme({
   palette: {
@@ -19,6 +19,7 @@ const theme = createTheme({
 
 export default function ThemeRegistry(props: { children: React.ReactNode }) {
   const { children } = props;
+  const router = useRouter();
 
   return (
     <ThemeProvider theme={theme}>
@@ -73,7 +74,7 @@ export default function ThemeRegistry(props: { children: React.ReactNode }) {
             <List>
               {MENU_ITEMS.map((item, index) => (
                 <ListItem key={index} disablePadding>
-                  <ListItemButton href={item.path}>
+                  <ListItemButton onClick={() => router.push(item.path)}>
                     <ListItemIcon>
                       <item.icon />
                     </ListItemIcon>

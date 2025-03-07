@@ -1,0 +1,18 @@
+.trend-icon {
+    font-size: 25rem !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    width: 100% !important;
+}
+
+.trend-icon--up {
+    color: #4caf50;
+}
+
+.trend-icon--down {
+    color: #f44336;
+    transform: scaleX(-1);
+}
