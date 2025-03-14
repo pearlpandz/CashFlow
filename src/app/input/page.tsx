@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from 'react';
-import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
-import DatePicker from 'react-datepicker';
+import { Box, Typography } from '@mui/material';
+import AddTransaction from '../components/AddTransaction';
+import ListTransaction from '../components/ListTransaction';
+import { useQueryClient } from '@tanstack/react-query';
+import { useTransactions } from '../hooks/useTransactions';
 
 interface ExpenseRow {
-  id: number;
   date: Date | null;
   type: string;
   category: string;
@@ -13,34 +14,24 @@ interface ExpenseRow {
   description: string;
 }
 
+
+
 export default function InputPage() {
-  const [rows, setRows] = useState<ExpenseRow[]>([
-    {
-      id: 1,
-      date: new Date(),
-      type: '',
-      category: '',
-      amount: '',
-      description: ''
+  const queryClient = useQueryClient();
+  const { data, error, isLoading } = useTransactions();
+
+  const handleSave = async (payload: ExpenseRow) => {
+    const response = await fetch('/api/transactions', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    if (response.ok) {
+      const savedTransaction = await response.json();
+      console.log('Transactions saved successfully');
+      queryClient.setQueryData(["transactions"], (oldData: ExpenseRow[] = []) => [...oldData, savedTransaction]);
+    } else {
+      console.error('Failed to save transactions');
     }
-  ]);
-
-  const handleAddRow = () => {
-    const newRow: ExpenseRow = {
-      id: rows.length + 1,
-      date: new Date(),
-      type: '',
-      category: '',
-      amount: '',
-      description: ''
-    };
-    setRows([...rows, newRow]);
-  };
-
-  const handleChange = (id: number, field: keyof ExpenseRow, value: string | Date | null) => {
-    setRows(rows.map(row => 
-      row.id === id ? { ...row, [field]: value } : row
-    ));
   };
 
   return (
@@ -48,95 +39,10 @@ export default function InputPage() {
       <Typography variant="h5" gutterBottom>
         Add Income/Expense
       </Typography>
-      
-      <Paper sx={{ p: 3 }}>
-        <Box>
-          {rows.map((row) => (
-            <Box 
-              key={row.id}
-              sx={{ 
-                display: 'flex', 
-                gap: 2, 
-                mb: 2,
-                alignItems: 'center'
-              }}
-            >
-              <FormControl sx={{ minWidth: 150 }}>
-                <InputLabel>Type</InputLabel>
-                <Select
-                  value={row.type}
-                  label="Type"
-                  onChange={(e) => handleChange(row.id, 'type', e.target.value)}
-                >
-                  <MenuItem value="income">Income</MenuItem>
-                  <MenuItem value="expense">Expense</MenuItem>
-                </Select>
-              </FormControl>
+    
+      <AddTransaction handleSave={handleSave} />
 
-              <FormControl sx={{ minWidth: 150 }}>
-                <InputLabel>Category</InputLabel>
-                <Select
-                  value={row.category}
-                  label="Category"
-                  onChange={(e) => handleChange(row.id, 'category', e.target.value)}
-                >
-                  <MenuItem value="salary">Salary</MenuItem>
-                  <MenuItem value="food">Food</MenuItem>
-                  <MenuItem value="transport">Transport</MenuItem>
-                  <MenuItem value="utilities">Utilities</MenuItem>
-                  <MenuItem value="entertainment">Entertainment</MenuItem>
-                  <MenuItem value="other">Other</MenuItem>
-                </Select>
-              </FormControl>
-
-              <TextField
-                label="Amount"
-                type="number"
-                value={row.amount}
-                onChange={(e) => handleChange(row.id, 'amount', e.target.value)}
-                sx={{ width: 150 }}
-              />
-
-              <FormControl sx={{ width: 200 }}>
-                <DatePicker 
-                  selected={row.date} 
-                  onChange={(newValue: Date | null) => handleChange(row.id, 'date', newValue)}
-                  className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl"
-                  wrapperClassName="MuiFormControl-root"
-                  customInput={<TextField />}
-                  dateFormat="MM/dd/yyyy"
-                  placeholderText="Select date"
-                  popperPlacement="top"
-                  popperProps={{
-                    strategy: "fixed"
-                  }}
-                />
-              </FormControl>
-
-              <TextField
-                label="Short Description"
-                value={row.description}
-                onChange={(e) => handleChange(row.id, 'description', e.target.value)}
-                sx={{ flexGrow: 1 }}
-              />
-            </Box>
-          ))}
-        </Box>
-        <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
-          <Button 
-            variant="contained" 
-            onClick={handleAddRow}
-          >
-            Add Row
-          </Button>
-          <Button 
-            variant="contained" 
-            color="primary"
-          >
-            Save All
-          </Button>
-        </Box>
-      </Paper>
+      <ListTransaction rows={data} loading={isLoading} />
     </Box>
   );
 }

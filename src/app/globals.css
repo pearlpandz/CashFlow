@@ -42,3 +42,8 @@ a {
     color-scheme: dark;
   }
 }
+
+/* override mui styles */
+.MuiDataGrid-cell.MuiDataGrid-cell--editing:focus-within {
+  outline: none !important;
+}

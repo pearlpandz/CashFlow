@@ -38,7 +38,7 @@ export default function ExpensesPage() {
 
   const fetchExpenses = async () => {
     try {
-      const response = await fetch(`/api/expenses?userId=${userId}`);
+      const response = await fetch(`/api/transactions?userId=${userId}&type=expense`);
       if (!response.ok) {
         throw new Error('Failed to fetch expenses');
       }

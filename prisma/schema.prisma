@@ -19,15 +19,16 @@ model User {
   email     String   @unique
   age      Int?
   createdAt DateTime @default(now())
-  expenses  Expense[]
+  transactions  Transaction[]
 }
 
-model Expense {
+model Transaction {
   id          Int      @id @default(autoincrement())
   amount      Float
   description String
+  type        String
   category    String
-  date        DateTime @default(now())
+  date        DateTime
   userId      Int
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())

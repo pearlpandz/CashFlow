@@ -52,7 +52,7 @@ export default function ExpenseForm({ userId, onSubmit }: ExpenseFormProps) {
     setError(null);
 
     try {
-      const response = await fetch('/api/expenses', {
+      const response = await fetch('/api/transactions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

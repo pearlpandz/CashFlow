@@ -5,8 +5,11 @@ import SummaryCards from "./components/SummaryCards";
 import BudgetEmotionChart from "./components/BudgetEmotionChart";
 import BudgetUsageChart from "./components/BudgetUsageChart";
 import ExpenseChart from "./components/ExpenseChart";
+import { useTransactions } from "./hooks/useTransactions";
 
 export default function UsersList() {
+  const { data, error, isLoading } = useTransactions();
+
   return (
     <Box>
       <Box>
