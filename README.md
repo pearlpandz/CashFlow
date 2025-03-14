@@ -1,25 +1,20 @@
-# AI-Based Chatbot for Mental Health 💙
+# Smart Expense Tracker with Budgeting 💰
 
-### Problem: 
-Many people struggle with mental health but hesitate to talk to therapists.
-Solution: A chatbot that provides basic mental health support and guides users to professional help.
+### **Problem**: 
+People find it hard to track expenses and save money.
 
-### Features:
-✅ AI-powered chat (GPT integration)
+### **Solution**: 
+A personal finance app that tracks income, expenses, and generates spending insights.
 
-✅ Mood tracking and sentiment analysis
+### **Features:**
+✅ Add income/expenses with specified categories <br />
+✅ Monthly budget planning and saved as template <br />
+✅ Monthly budget status update <br />
+✅ Data visualization (charts & graphs) <br />
+✅ Export reports as PDF/CSV <br />
 
-✅ Anonymous chat option
-
-✅ Emergency contact suggestions
-
-
-### Tech Stack:
-
-**Frontend:** Next Js, MUI, axios
-
-**Backend:** Next Js, Prisma
-
-**Database:** PostgreSQL
-
-**AI API:** OpenAI
+### **Tech Stack:**
+**Frontend:** React, Material UI, TanStack Query, React Form Hook <br />
+**Backend:** Node.js, Express.js <br />
+**Database:** PostgreSQL <br />
+**Additional:** Chart.js <br />

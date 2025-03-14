@@ -59,6 +59,8 @@ export default function AddTransaction({ handleSave }: { handleSave: (payload: E
                         >
                             <MenuItem value="income">Income</MenuItem>
                             <MenuItem value="expense">Expense</MenuItem>
+                            <MenuItem value="savings">Savings</MenuItem>
+                            <MenuItem value="investments">Investments</MenuItem>
                         </Select>
                     </FormControl>
 

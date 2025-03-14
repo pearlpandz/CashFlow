@@ -1,5 +1,5 @@
 import ListTemplate from "../components/ListTemplate";
-import { renderItem } from "../utils/RenderItem";
+import { renderItem } from "../components/RenderItem";
 
 export interface User {
   id: number;

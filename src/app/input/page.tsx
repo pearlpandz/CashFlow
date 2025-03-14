@@ -14,8 +14,6 @@ interface ExpenseRow {
   description: string;
 }
 
-
-
 export default function InputPage() {
   const queryClient = useQueryClient();
   const { data, error, isLoading } = useTransactions();

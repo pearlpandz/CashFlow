@@ -161,6 +161,8 @@ export default function ListTransaction({ rows, loading }: { rows: Partial<Trans
                 >
                     <MenuItem value="income">Income</MenuItem>
                     <MenuItem value="expense">Expense</MenuItem>
+                    <MenuItem value="savings">Savings</MenuItem>
+                    <MenuItem value="investments">Investments</MenuItem>
                 </Select>
             }
         },
